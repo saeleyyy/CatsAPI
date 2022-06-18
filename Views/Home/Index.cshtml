@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<body>
+    <div class="d-flex justify-content-center">
+        <h1>Which do you prefer?</h1>
+    </div>
+    <div class="d-flex justify-around">
+        @for (int i = 0; i <= 1; i++)
+        { 
+            string name = i == 0 ? "img-one" : "img-two";
+            <img id=@name src="@ViewBag.Images[i].url" alt="cat"
+                 width="500" height="600" class="rounded mx-auto d-block mt-5">
+        }
+    </div>
+</body>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('img').click(function () {
+                $(this).addClass('animate__animated animate__shakeY');
+                let change = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetImage")",
+                    dataType: "JSON",
+                    async: false,
+                    success: function (result) {
+                        if ($(change).attr('id') == 'img-one') {
+                            $('#img-two').attr('src', result[0]['url'])
+                        } else {
+                            $('#img-one').attr('src', result[0]['url'])
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+                $(this).on('animationend', function () {
+                    $(this).removeClass('animate__animated animate__shakeY');
+                } )
+            });
+        })
+    </script>
+}
