@@ -3,14 +3,14 @@
 }
 <body>
     <div class="d-flex justify-content-center">
-        <h1>Which do you prefer?</h1>
+        <h1>Which Cat do you prefer?</h1>
     </div>
     <div class="d-flex justify-around">
         @for (int i = 0; i <= 1; i++)
         { 
             string name = i == 0 ? "img-one" : "img-two";
             <img id=@name src="@ViewBag.Images[i].url" alt="cat"
-                 width="500" height="600" class="rounded mx-auto d-block mt-5">
+                 class="rounded mx-auto d-block mt-5">
         }
     </div>
 </body>
