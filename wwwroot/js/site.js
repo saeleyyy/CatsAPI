@@ -2,28 +2,34 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-$(document).ready(function () {
-    $('img').click(function () {
-        $(this).addClass('animate__animated animate__shakeY');
-        let change = $(this);
-        $.ajax({
-            type: "GET",
-            url: "/home/GetImage",
-            dataType: "JSON",
-            async: false,
-            success: function (result) {
-                if ($(change).attr('id') === 'img-one') {
-                    $('#img-two').attr('src', result[0]['url'])
-                } else {
-                    $('#img-one').attr('src', result[0]['url'])
-                }
-            },
-            error: function(err) {
-                console.log(err)
+function getNewImage(cur){
+    cur.classList.add("animate__animated", "animate__shakeY");
+    
+    fetch('home/GetImage')
+        .then(function(response){
+            return response.json()
+        })
+        .then(function(json){
+            const image = json[0]['url'];
+            console.log(image)
+            
+            if (cur.id === 'img-one') {
+                document.getElementById('img-two').setAttribute('src', image)
+            } else {
+                document.getElementById('img-one').setAttribute('src', image)
             }
         })
-        $(this).on('animationend', function () {
-            $(this).removeClass('animate__animated animate__shakeY');
-        } )
+}
+
+// add event listener to img tags
+const images = document.getElementsByTagName('img');
+for (let i=0; i<images.length; i++)
+{
+    images[i].addEventListener('click', function() {
+        getNewImage(this);
+        
+        this.addEventListener('animationend', function() {
+            this.classList.remove('animate__animated', 'animate__shakeY');
+        })
     });
-})
+}
