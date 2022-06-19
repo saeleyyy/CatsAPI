@@ -8,7 +8,7 @@ $(document).ready(function () {
         let change = $(this);
         $.ajax({
             type: "GET",
-            url: "@Url.Action('GetImage')",
+            url: "/home/GetImage",
             dataType: "JSON",
             async: false,
             success: function (result) {
