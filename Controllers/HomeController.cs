@@ -10,13 +10,18 @@ namespace CatAPI.Controllers
 {
     public class HomeController : Controller
     {
-        HttpClient client = new HttpClient();
+        private readonly HttpClient _client;
+
+        public HomeController(HttpClient client)
+        {
+            _client = client;
+        }
         
         public async Task<IActionResult> Index()
         {
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             
-            HttpResponseMessage response = await client.GetAsync("https://api.thecatapi.com/v1/images/search?limit=2");
+            HttpResponseMessage response = await _client.GetAsync("https://api.thecatapi.com/v1/images/search?limit=2");
 
             if (response.IsSuccessStatusCode)
             {
@@ -36,7 +41,7 @@ namespace CatAPI.Controllers
 
         private async Task<string> GetRandomImageUrl()
         {
-            HttpResponseMessage response = await client.GetAsync("https://api.thecatapi.com/v1/images/search?limit=1");
+            HttpResponseMessage response = await _client.GetAsync("https://api.thecatapi.com/v1/images/search?limit=1");
             string res = await response.Content.ReadAsStringAsync();
 
             return res;

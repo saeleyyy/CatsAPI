@@ -2,6 +2,7 @@
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient("HomeController");
 
 var app = builder.Build();
 
