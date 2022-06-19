@@ -29,14 +29,12 @@ namespace CatAPI.Controllers
         }
         
         [HttpGet]
-        public string GetImage()
+        public Task<string> GetImage()
         {
-            Task<string> url = GetRandomImageURL();
-
-            return url.Result;
+            return GetRandomImageUrl();
         }
 
-        private async Task<string> GetRandomImageURL()
+        private async Task<string> GetRandomImageUrl()
         {
             HttpResponseMessage response = await client.GetAsync("https://api.thecatapi.com/v1/images/search?limit=1");
             string res = await response.Content.ReadAsStringAsync();
