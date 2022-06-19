@@ -8,11 +8,11 @@ $(document).ready(function () {
         let change = $(this);
         $.ajax({
             type: "GET",
-            url: "@Url.Action("GetImage")",
+            url: "@Url.Action('GetImage')",
             dataType: "JSON",
             async: false,
             success: function (result) {
-                if ($(change).attr('id') == 'img-one') {
+                if ($(change).attr('id') === 'img-one') {
                     $('#img-two').attr('src', result[0]['url'])
                 } else {
                     $('#img-one').attr('src', result[0]['url'])
